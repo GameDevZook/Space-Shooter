@@ -11,21 +11,24 @@ public class SpawnManager : MonoBehaviour
     private bool _stopSpawn = false;
     [SerializeField]
     private float _spawnTime = 2f;
-
+    [SerializeField]
+    private GameObject[] powerups;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnRoutine());
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartSpawn()
     {
-   
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerupRoutine());
     }
 
-    IEnumerator SpawnRoutine()
+    IEnumerator SpawnEnemyRoutine()
     {
+        yield return new WaitForSeconds(3f);
+
         while (_stopSpawn == false)
         {
             Vector3 spawnPos = new Vector3(Random.Range(-8f, 8f), 7, 0);
@@ -37,6 +40,21 @@ public class SpawnManager : MonoBehaviour
 
     }
 
+    IEnumerator SpawnPowerupRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+
+        while(_stopSpawn == false)
+        {
+            Vector3 SpawnPos = new Vector3(Random.Range(-8f, 8f), 7f, 0);
+            int RandomPowerup = Random.Range(0, 3);
+            Instantiate(powerups[RandomPowerup], SpawnPos, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(8f, 14f));
+
+        }
+
+
+    }
     public void OnPlayerDeath()
     {
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8244114771168797572}
   - component: {fileID: 471236639396946624}
   - component: {fileID: 2733552079672741144}
-  - component: {fileID: 9000620485153827995}
+  - component: {fileID: 771766616527673253}
   m_Layer: 0
   m_Name: Laser
   m_TagString: Laser
@@ -134,7 +134,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &9000620485153827995
+--- !u!114 &771766616527673253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
