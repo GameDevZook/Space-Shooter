@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 3f;
     [SerializeField]
+    private float _thrusterSpeed = 1.5f;
+    [SerializeField]
     private float _speedMultiplier = 2;
     [SerializeField]
     private GameObject _laserPrefab;
@@ -142,7 +144,8 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11.3f, transform.position.y, 0);
         }
 
-
+        Thrusters();
+       
     }
 
     public void Damage()
@@ -237,5 +240,19 @@ public class Player : MonoBehaviour
         _score += points;
         _uiManager.UpdateScore(_score);
     }
+
+    void Thrusters()
+    {
+
+        if (Input.GetKeyDown(KeyCode.LeftShift)){
+            _speed *= _thrusterSpeed;
+
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift)) {
+            _speed /= _thrusterSpeed;
+        }
+    }
 }
+
 
