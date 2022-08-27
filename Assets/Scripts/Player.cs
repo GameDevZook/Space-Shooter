@@ -19,11 +19,15 @@ public class Player : MonoBehaviour
     private float _canFire = -1f;
     [SerializeField]
     private int _lives = 3;
+    [SerializeField]
+    private int _shieldLives = 3;
     private SpawnManager _spawnManager;
     [SerializeField]
     private GameObject _playerShield;
     [SerializeField]
     private GameObject _explosionPrefab;
+
+    private Renderer _playerShieldColor;
 
     [SerializeField]
     private GameObject _leftEngine, _rightEngine;
@@ -53,6 +57,12 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
+        _playerShieldColor = _playerShield.GetComponent<Renderer>();
+
+        if( _playerShieldColor == null)
+        {
+            Debug.LogError("PlayerShieldColor is NULL");
+        }
       
 
         if(_uiManager == null)
@@ -159,8 +169,8 @@ public class Player : MonoBehaviour
 
         else
         {
-            _isShieldPowerupActive = false;
-            _playerShield.SetActive(false);
+            ShieldBehavior();
+            
             return;
         }
 
@@ -188,8 +198,9 @@ public class Player : MonoBehaviour
 
     public void ShieldPowerupActive()
     {
-        _isShieldPowerupActive = true;
         _playerShield.SetActive(true);
+        _isShieldPowerupActive = true;
+        
 
     }
     public void TripleShotActive()
@@ -252,6 +263,32 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift)) {
             _speed /= _thrusterSpeed;
         }
+    }
+
+    void ShieldBehavior()
+    {
+        _shieldLives--;
+
+        if(_shieldLives == 2)
+        {
+
+            _playerShieldColor.material.color = new Color32(222, 222, 222, 255);
+
+        }
+
+        if(_shieldLives == 1)
+        {
+            _playerShieldColor.material.color = new Color32(135, 135, 135, 255);
+
+        }
+
+        if(_shieldLives == 0)
+        {
+            _playerShieldColor.material.color = Color.white;
+            _playerShield.SetActive(false);
+            _isShieldPowerupActive = false;
+        }
+
     }
 }
 

@@ -1910,10 +1910,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
+  _thrusterSpeed: 1.5
   _speedMultiplier: 2
   _laserPrefab: {fileID: 510909438309526310, guid: 1ce79fe4d0b27014bbca17572431699c, type: 3}
   _fireRate: 0.15
   _lives: 3
+  _shieldLives: 3
   _playerShield: {fileID: 829029727}
   _explosionPrefab: {fileID: 2835936772600881103, guid: a680e0637f8865648af10d90685a88ff, type: 3}
   _leftEngine: {fileID: 753707377}
