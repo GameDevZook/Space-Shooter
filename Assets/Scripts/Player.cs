@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _fireRate = .5f;
     private float _canFire = -1f;
+    private int _ammoCount;
     [SerializeField]
     private int _lives = 3;
     [SerializeField]
@@ -50,10 +51,12 @@ public class Player : MonoBehaviour
     private UIManager _uiManager;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
+        _ammoCount = 15;
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
@@ -90,10 +93,11 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammoCount > 0)
         {
             FireLaser();
-
+            _ammoCount--;
+            _uiManager.UpdateAmmo(_ammoCount);
         }
 
         
