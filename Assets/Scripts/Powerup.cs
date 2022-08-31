@@ -62,6 +62,10 @@ public class Powerup : MonoBehaviour
                         player.AmmoPickupActive();
                         break;
 
+                    case 4:
+                        player.AddLife();
+                        break;
+
                     default:
                         Debug.Log("Default Value");
                         break;

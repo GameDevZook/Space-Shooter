@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
-        _ammoCount = 15;
+        _ammoCount = 100;
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
@@ -226,11 +226,43 @@ public class Player : MonoBehaviour
     public void AmmoPickupActive()
     {
 
-        _ammoCount += 15;
+        _ammoCount += 100;
         _uiManager.UpdateAmmo(_ammoCount);
 
     }
-    IEnumerator TripleShotDurationRoutine()
+
+    public void AddLife()
+    {
+        if(_lives < 3)
+        {
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+
+            if(_lives == 3)
+            {
+                _leftEngine.SetActive(false);
+                _rightEngine.SetActive(false);
+            }
+
+            else if (_lives == 2)
+            {
+                _rightEngine.SetActive(false);
+
+            }
+        }
+        
+
+        else
+        {
+            return;
+        }
+
+    }
+    
+        
+        
+   
+        IEnumerator TripleShotDurationRoutine()
     {
 
         while (_isTripleShotActive == true)

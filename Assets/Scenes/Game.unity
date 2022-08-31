@@ -2015,6 +2015,7 @@ MonoBehaviour:
   - {fileID: 6250746138234688987, guid: da673a45405267e4faae48dd2e170cb9, type: 3}
   - {fileID: 6235468567146085965, guid: a133ad484b19dce45be9f59b41bf8f75, type: 3}
   - {fileID: 6554371462626240850, guid: e9e5ce04251093b44a2ce024dc3a73c8, type: 3}
+  - {fileID: 2890213953955535762, guid: acd90381ff463a5488bb72212b0a0bc8, type: 3}
 --- !u!1 &2060250461
 GameObject:
   m_ObjectHideFlags: 0
