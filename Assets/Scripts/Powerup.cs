@@ -58,6 +58,10 @@ public class Powerup : MonoBehaviour
                         player.ShieldPowerupActive();
                         break;
 
+                    case 3:
+                        player.AmmoPickupActive();
+                        break;
+
                     default:
                         Debug.Log("Default Value");
                         break;

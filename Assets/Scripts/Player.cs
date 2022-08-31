@@ -96,8 +96,9 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammoCount > 0)
         {
             FireLaser();
-            _ammoCount--;
+           _ammoCount--;
             _uiManager.UpdateAmmo(_ammoCount);
+       
         }
 
         
@@ -219,6 +220,14 @@ public class Player : MonoBehaviour
 
         _isSpeedPowerupActive = true;
         StartCoroutine(SpeedPowerupDurationRoutine());
+
+    }
+
+    public void AmmoPickupActive()
+    {
+
+        _ammoCount += 15;
+        _uiManager.UpdateAmmo(_ammoCount);
 
     }
     IEnumerator TripleShotDurationRoutine()
