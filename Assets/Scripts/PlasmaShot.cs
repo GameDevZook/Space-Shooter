@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+public class PlasmaShot : MonoBehaviour
 {
-    private float speed = 8f;
-   
+  
+    private float _laserSpeed = 8f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,25 +16,20 @@ public class Laser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.gameObject.transform.position += (transform.up * _laserSpeed * Time.deltaTime);
 
-        transform.Translate(new Vector3(0, 1, 0) * speed * Time.deltaTime);
-
-        if (transform.position.y >= 8)
+        if(transform.position.y > 8)
         {
+
             if (transform.parent != null)
             {
+
                 Destroy(transform.parent.gameObject);
 
             }
-            Destroy(gameObject);
+            Destroy(this.gameObject);
 
         }
+        
     }
-
-    
-
-   
-
-    
-
 }

@@ -13,6 +13,8 @@ public class SpawnManager : MonoBehaviour
     private float _spawnTime = 2f;
     [SerializeField]
     private GameObject[] powerups;
+    [SerializeField]
+    private GameObject _PlasmaShot;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,7 @@ public class SpawnManager : MonoBehaviour
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
+        StartCoroutine(SpawnRarePowerupRoutine());
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -50,6 +53,22 @@ public class SpawnManager : MonoBehaviour
             int RandomPowerup = Random.Range(0, 5);
             Instantiate(powerups[RandomPowerup], SpawnPos, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(8f, 14f));
+
+        }
+
+
+    }
+
+    IEnumerator SpawnRarePowerupRoutine()
+    {
+        yield return new WaitForSeconds(30);
+
+        while(_stopSpawn == false)
+        {
+            Vector3 spawnPos = new Vector3(Random.Range(-8f, 8f), 7f, 0);
+            Instantiate(_PlasmaShot, spawnPos, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(25f, 40f));
+
 
         }
 

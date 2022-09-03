@@ -6,16 +6,16 @@ public class Powerup : MonoBehaviour
 {
     [SerializeField]
     private AudioClip _powerupAudio;
-    
 
+    GameObject _laser;
 
     [SerializeField]
     private float _speed = 3f;
     [SerializeField]
     private int _PowerupID; //0 == TripleShot, 1 == Speed, 2 == Shields
 
-    
-    
+   
+
 
     void Update()
     {
@@ -64,6 +64,9 @@ public class Powerup : MonoBehaviour
 
                     case 4:
                         player.AddLife();
+                        break;
+                    case 5:
+                        player.PlasmaShotActive();
                         break;
 
                     default:

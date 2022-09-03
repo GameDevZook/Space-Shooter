@@ -2016,6 +2016,7 @@ MonoBehaviour:
   - {fileID: 6235468567146085965, guid: a133ad484b19dce45be9f59b41bf8f75, type: 3}
   - {fileID: 6554371462626240850, guid: e9e5ce04251093b44a2ce024dc3a73c8, type: 3}
   - {fileID: 2890213953955535762, guid: acd90381ff463a5488bb72212b0a0bc8, type: 3}
+  _PlasmaShot: {fileID: 4723486984198670657, guid: 634e3e22e004b0543a94c8788fcecbd2, type: 3}
 --- !u!1 &2060250461
 GameObject:
   m_ObjectHideFlags: 0
@@ -2052,6 +2053,7 @@ MonoBehaviour:
   _thrusterSpeed: 1.5
   _speedMultiplier: 2
   _laserPrefab: {fileID: 510909438309526310, guid: 1ce79fe4d0b27014bbca17572431699c, type: 3}
+  _plasmaShotPrefab: {fileID: 4737946580170523076, guid: 3a765ccabe1bfcd4a9180feb9bedd53b, type: 3}
   _fireRate: 0.15
   _lives: 3
   _shieldLives: 3
@@ -2059,6 +2061,7 @@ MonoBehaviour:
   _explosionPrefab: {fileID: 2835936772600881103, guid: a680e0637f8865648af10d90685a88ff, type: 3}
   _leftEngine: {fileID: 753707377}
   _rightEngine: {fileID: 684357126}
+  _isPlasmaShotActive: 0
   _tripleShotPrefab: {fileID: 7626149021280309310, guid: a3968e1f6118c0e42908abb8d50d8204, type: 3}
   _fireLaserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   _audioSource: {fileID: 0}

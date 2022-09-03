@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
+    private GameObject _plasmaShotPrefab;
+    [SerializeField]
     private float _fireRate = .5f;
     private float _canFire = -1f;
     private int _ammoCount;
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
     private GameObject _playerShield;
     [SerializeField]
     private GameObject _explosionPrefab;
+   
 
     private Renderer _playerShieldColor;
 
@@ -36,6 +39,9 @@ public class Player : MonoBehaviour
     private bool _isShieldPowerupActive = false;
     private bool _isTripleShotActive = false;
     private bool _isSpeedPowerupActive = false;
+    [SerializeField]
+    private bool _isPlasmaShotActive = false;
+
     [SerializeField]
     private GameObject _tripleShotPrefab;
 
@@ -61,6 +67,7 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
         _playerShieldColor = _playerShield.GetComponent<Renderer>();
+       
 
         if( _playerShieldColor == null)
         {
@@ -110,6 +117,13 @@ public class Player : MonoBehaviour
         if (_isTripleShotActive == true)
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+        }
+
+        else if (_isPlasmaShotActive == true)
+        {
+
+            Instantiate(_plasmaShotPrefab, transform.position + new Vector3(0, 0.96f, 0), Quaternion.identity);
+
         }
 
         else
@@ -200,7 +214,7 @@ public class Player : MonoBehaviour
     }
 
 
-
+   
     public void ShieldPowerupActive()
     {
         _playerShield.SetActive(true);
@@ -228,6 +242,13 @@ public class Player : MonoBehaviour
 
         _ammoCount += 100;
         _uiManager.UpdateAmmo(_ammoCount);
+
+    }
+
+    public void PlasmaShotActive()
+    {
+        _isPlasmaShotActive = true;
+        StartCoroutine(PlasmaShotDurationRoutine());
 
     }
 
@@ -260,7 +281,17 @@ public class Player : MonoBehaviour
     }
     
         
-        
+        IEnumerator PlasmaShotDurationRoutine()
+    {
+        while(_isPlasmaShotActive == true)
+        {
+            yield return new WaitForSeconds(8f);
+            _isPlasmaShotActive=false;
+
+        }
+
+
+    }
    
         IEnumerator TripleShotDurationRoutine()
     {
