@@ -20,6 +20,10 @@ public class UIManager : MonoBehaviour
     private Image _livesImage;
     private int _currentLives;
     GameManager _gameManager;
+
+    [SerializeField]
+    private Slider boostSlider;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,5 +84,10 @@ public class UIManager : MonoBehaviour
        
     }
 
+    public void SetBoost(float boost)
+    {
+
+        boostSlider.value = boost;
+    }
  
 }

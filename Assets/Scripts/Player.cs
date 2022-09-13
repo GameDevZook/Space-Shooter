@@ -11,6 +11,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _thrusterSpeed = 1.5f;
     [SerializeField]
+    private float _thrusterAmount;
+    private bool _isThrusterActive;
+    
+
+    [SerializeField]
     private float _speedMultiplier = 2;
     [SerializeField]
     private GameObject _laserPrefab;
@@ -67,6 +72,7 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
         _playerShieldColor = _playerShield.GetComponent<Renderer>();
+        _thrusterAmount = 1;
        
 
         if( _playerShieldColor == null)
@@ -108,7 +114,7 @@ public class Player : MonoBehaviour
        
         }
 
-        
+       
     }
 
     void FireLaser()
@@ -285,7 +291,7 @@ public class Player : MonoBehaviour
     {
         while(_isPlasmaShotActive == true)
         {
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(5f);
             _isPlasmaShotActive=false;
 
         }
@@ -320,6 +326,8 @@ public class Player : MonoBehaviour
 
     }
 
+    
+
    
 
     public void UpdateScore(int points)
@@ -331,14 +339,59 @@ public class Player : MonoBehaviour
     void Thrusters()
     {
 
-        if (Input.GetKeyDown(KeyCode.LeftShift)){
-            _speed *= _thrusterSpeed;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _thrusterAmount > 0)
+        {
+            
+            _isThrusterActive = true;
+            StartCoroutine(UseThrusterRoutine());
+            StopCoroutine(ThrusterRechargeRoutine());
+            
+
 
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift)) {
-            _speed /= _thrusterSpeed;
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _isThrusterActive = false;
+            StopCoroutine(UseThrusterRoutine());
+            StartCoroutine(ThrusterRechargeRoutine());
+            
+
         }
+
+       
+        
+    }
+
+    IEnumerator UseThrusterRoutine()
+    {
+        _speed *= _thrusterSpeed;
+
+        while (_isThrusterActive == true && _thrusterAmount > 0)
+        {
+            
+            _thrusterAmount -= 0.01f;
+            _uiManager.SetBoost(_thrusterAmount);
+            yield return new WaitForSeconds(0.01f);
+            
+        }
+       
+       _speed /= _thrusterSpeed;
+        
+
+    }
+    IEnumerator ThrusterRechargeRoutine()
+    {
+        while (_thrusterAmount < 1 && _isThrusterActive == false)
+        {
+            _thrusterAmount += 0.01f;
+            _uiManager.SetBoost(_thrusterAmount);
+            yield return new WaitForSeconds(0.01f);
+
+        }
+
+
+
     }
 
     void ShieldBehavior()
