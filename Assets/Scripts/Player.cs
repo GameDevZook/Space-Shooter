@@ -60,6 +60,7 @@ public class Player : MonoBehaviour
     private int _score;
 
     private UIManager _uiManager;
+    private Camera _camera;
 
 
 
@@ -72,8 +73,14 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
         _playerShieldColor = _playerShield.GetComponent<Renderer>();
+        _camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         _thrusterAmount = 1;
        
+        if(_camera == null)
+        {
+
+            Debug.LogError("Camera is NULL");
+        }
 
         if( _playerShieldColor == null)
         {
@@ -189,6 +196,7 @@ public class Player : MonoBehaviour
         {
             _lives--;
             _uiManager.UpdateLives(_lives);
+            _camera.StartShake();
             
         }
 
