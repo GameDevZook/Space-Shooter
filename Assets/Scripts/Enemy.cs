@@ -16,13 +16,17 @@ public class Enemy : MonoBehaviour
     private AudioSource _audioSource;
 
     Animator enemyExplode_anim;
+
+    [SerializeField]
+    private int _moveID;
+
     
-   
 
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(ShootLaserRoutine());
+        StartCoroutine(SetMovementRoutine());
 
         _audioSource = GetComponent<AudioSource>();
         if(_audioSource == null)
@@ -47,24 +51,52 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        transform.Translate(new Vector3(0, -_speed, 0) * Time.deltaTime);
+
+        CalculateMovement();
+        
+
+        
+    }
+
+
+    void CalculateMovement()
+    {
+        Vector3 moveRight = new Vector3(2, -_speed, 0);
+        Vector3 moveLeft = new Vector3(-2, -_speed, 0);
+
+        switch (_moveID)
+        {
+            case 0:
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+                break;
+
+            case 1:
+                transform.Translate(moveLeft * Time.deltaTime);
+                break;
+
+            case 2:
+                transform.Translate(moveRight * Time.deltaTime);
+                break;
+
+            default:
+                Debug.Log("Default Value");
+                break;
+
+        }
+      
+        
 
         if (transform.position.y <= -5.7f)
         {
             float randomX = Random.Range(-8f, 8f);
             transform.position = new Vector3(randomX, 8, 0);
         }
-        
 
-        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //if other is player
-        //damage the player
-        //destroy us
+       
 
      if(other.tag == "Player")
         {
@@ -80,11 +112,6 @@ public class Enemy : MonoBehaviour
 
         }
 
-        
-        //if other is laser
-        //destroy laser
-        //destroy us
-
      if(other.tag == "Laser")
         {
             Destroy(other.gameObject);
@@ -97,6 +124,17 @@ public class Enemy : MonoBehaviour
             EnemyDeathSequence();
 
         }
+      
+     if(other.tag == "Enemy")
+        {
+
+            _moveID = 0;
+
+        }
+     
+
+
+
 
      void EnemyDeathSequence()
         {
@@ -127,6 +165,26 @@ public class Enemy : MonoBehaviour
         }
 
     }
-    
+
+   
+
+    IEnumerator SetMovementRoutine()
+    {
+        int randomMovement = Random.Range(0, 3);
+        float randomMoveTime = Random.Range(4f, 8f);
+
+        yield return new WaitForSeconds(2f);
+
+        while (this.gameObject.activeSelf == true)
+        {
+            _moveID = randomMovement;
+            yield return new WaitForSeconds(randomMoveTime);
+
+
+        }
+
+
+
+    }
 
 }

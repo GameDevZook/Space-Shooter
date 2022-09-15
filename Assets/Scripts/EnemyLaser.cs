@@ -21,7 +21,7 @@ public class EnemyLaser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+       transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
         if(transform.position.y < -5.2)
         {
