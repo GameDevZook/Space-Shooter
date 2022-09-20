@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
-        _ammoCount = 100;
+        _ammoCount = 300;
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
@@ -255,6 +255,13 @@ public class Player : MonoBehaviour
     {
 
         _ammoCount += 100;
+
+        if(_ammoCount > 500)
+        {
+
+            _ammoCount = 500;
+        }
+
         _uiManager.UpdateAmmo(_ammoCount);
 
     }

@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmo(int currentAmmo)
     {
 
-        _ammoText.text = "Ammo: " + currentAmmo;
+        _ammoText.text = "Ammo: " + currentAmmo + " /500";
     }
 
     public void UpdateLives(int _currentLives)
