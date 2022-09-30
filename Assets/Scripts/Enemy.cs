@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    
+
     [SerializeField]
     private float _speed = 5f;
 
     private Player _player;
+    private SpawnManager _spawnManager;
+
     [SerializeField]
     private GameObject _enemyLaser;
 
     [SerializeField]
     private AudioClip _explosionAudio;
     private AudioSource _audioSource;
+    
 
     Animator enemyExplode_anim;
 
@@ -22,11 +27,15 @@ public class Enemy : MonoBehaviour
 
     
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(ShootLaserRoutine());
-        StartCoroutine(SetMovementRoutine());
+       
+            StartCoroutine(ShootLaserRoutine());
+            StartCoroutine(SetMovementRoutine());
+
 
         _audioSource = GetComponent<AudioSource>();
         if(_audioSource == null)
@@ -40,6 +49,8 @@ public class Enemy : MonoBehaviour
             Debug.LogError("_player returned NULL");
         }
 
+       _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+
         enemyExplode_anim = GetComponent<Animator>();
         if( enemyExplode_anim == null)
         {
@@ -52,14 +63,13 @@ public class Enemy : MonoBehaviour
     void Update()
     {
 
-        CalculateMovement();
-        
-
-        
+       
+         CalculateEnemyMovement();
+         
     }
 
 
-    void CalculateMovement()
+    void CalculateEnemyMovement()
     {
         Vector3 moveRight = new Vector3(2, -_speed, 0);
         Vector3 moveLeft = new Vector3(-2, -_speed, 0);
@@ -94,19 +104,19 @@ public class Enemy : MonoBehaviour
 
     }
 
+   
+
     private void OnTriggerEnter2D(Collider2D other)
     {
        
 
      if(other.tag == "Player")
         {
-            Player player = other.transform.GetComponent<Player>();
+           
 
-           if(player != null)
-            {
-                player.Damage();
+            _spawnManager.DestroyedEnemy();
 
-            }
+            _player.Damage();
 
             EnemyDeathSequence();
 
@@ -116,10 +126,11 @@ public class Enemy : MonoBehaviour
         {
             Destroy(other.gameObject);
 
-            if(_player != null)
-            {
-                _player.UpdateScore(10);
-            }
+            _spawnManager.DestroyedEnemy();
+
+            
+            _player.UpdateScore(10);
+            
 
             EnemyDeathSequence();
 
@@ -171,7 +182,7 @@ public class Enemy : MonoBehaviour
     IEnumerator SetMovementRoutine()
     {
         int randomMovement = Random.Range(0, 3);
-        float randomMoveTime = Random.Range(4f, 8f);
+        float randomMoveTime = Random.Range(2f, 4f);
 
         yield return new WaitForSeconds(2f);
 

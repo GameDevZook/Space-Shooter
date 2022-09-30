@@ -69,6 +69,10 @@ public class Powerup : MonoBehaviour
                         player.PlasmaShotActive();
                         break;
 
+                    case 6:
+                        player.SlowPowerupActive();
+                        break;
+
                     default:
                         Debug.Log("Default Value");
                         break;

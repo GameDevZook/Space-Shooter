@@ -5,43 +5,107 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private GameObject[] _enemyPrefabs;
     [SerializeField]
     private GameObject _enemyContainer;
-    private bool _stopSpawn = false;
+    [SerializeField]
+    private int _randomEnemy;
+
+    private bool _stopSpawn = true;
     [SerializeField]
     private float _spawnTime = 2f;
     [SerializeField]
     private GameObject[] powerups;
     [SerializeField]
     private GameObject _PlasmaShot;
+
+    [SerializeField]
+    private int _startingWave = 1;
+    private int _currentWave;
+    private int _enemySpawnAmount;
+    [SerializeField]
+    private int _currentEnemies;
+    private bool _enemySpawnComplete;
+
+    UIManager _UIManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _currentWave = _startingWave;
+
+        _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if( _UIManager == null)
+        {
+            Debug.LogError("UI Manager is NULL");
+        }
     }
+
+    private void Update()
+    {
+        if (_stopSpawn == false && _currentEnemies == 0 && _enemySpawnComplete == true)
+        {
+            StartNewWave();
+
+        }
+    }
+
+
 
     public void StartSpawn()
     {
+        _stopSpawn = false;
+    
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
         StartCoroutine(SpawnRarePowerupRoutine());
+        
     }
+
+    void StartNewWave()
+    {
+        _currentWave++;
+        _UIManager.UpdateWave(_currentWave);
+        StartCoroutine(SpawnEnemyRoutine());
+
+    }
+
+   
+    public void DestroyedEnemy()
+    {
+        _currentEnemies--;
+        _UIManager.UpdateEnemies(_currentEnemies);
+    }
+
+    
 
     IEnumerator SpawnEnemyRoutine()
     {
+        _enemySpawnComplete = false;
+        int enemyAmount = Random.Range(3, 5);
+        _enemySpawnAmount = enemyAmount * _currentWave;
+        
+
         yield return new WaitForSeconds(3f);
 
-        while (_stopSpawn == false)
+        while (_stopSpawn == false && _enemySpawnAmount > 0)
         {
             Vector3 spawnPos = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            GameObject newEnemy = Instantiate(_enemyPrefab, spawnPos, Quaternion.identity);
+            _randomEnemy = Random.Range(0, 2);
+            GameObject newEnemy = Instantiate(_enemyPrefabs[_randomEnemy], spawnPos, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
+            _enemySpawnAmount--;
+            _currentEnemies++;
+            _UIManager.UpdateEnemies(_currentEnemies);
             yield return new WaitForSeconds(_spawnTime);
 
         }
 
+        _enemySpawnComplete = true;
+        yield return null;
     }
+
+   
 
     IEnumerator SpawnPowerupRoutine()
     {

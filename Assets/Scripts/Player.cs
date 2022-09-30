@@ -16,7 +16,9 @@ public class Player : MonoBehaviour
     
 
     [SerializeField]
-    private float _speedMultiplier = 2;
+    private float _speedMultiplier = 2f;
+    [SerializeField]
+    private float _slowMultiplier = 0.2f;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour
     private bool _isSpeedPowerupActive = false;
     [SerializeField]
     private bool _isPlasmaShotActive = false;
+    private bool _isSlowed = false;
 
     [SerializeField]
     private GameObject _tripleShotPrefab;
@@ -153,15 +156,21 @@ public class Player : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
+        Vector3 playerInput = new Vector3(horizontalInput, verticalInput, 0);
 
         if (_isSpeedPowerupActive == true)
         {
-            transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * _speedMultiplier * Time.deltaTime);
+            transform.Translate(playerInput * _speed * _speedMultiplier * Time.deltaTime);
+        }
+
+        else if (_isSlowed == true)
+        {
+            transform.Translate(playerInput * _speed * _slowMultiplier * Time.deltaTime);
         }
 
         else
         {
-            transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
+            transform.Translate(playerInput * _speed * Time.deltaTime);
         }
 
         if (transform.position.y >= 0)
@@ -273,6 +282,13 @@ public class Player : MonoBehaviour
 
     }
 
+    public void SlowPowerupActive()
+    {
+        _isSlowed = true;
+        StartCoroutine(SlowPowerupDuration());
+    }
+
+
     public void AddLife()
     {
         if(_lives < 3)
@@ -301,7 +317,18 @@ public class Player : MonoBehaviour
 
     }
     
-        
+        IEnumerator SlowPowerupDuration()
+    {
+        while(_isSlowed == true)
+        {
+            yield return new WaitForSeconds(4f);
+
+            _isSlowed = false;
+
+        }
+
+
+    }
         IEnumerator PlasmaShotDurationRoutine()
     {
         while(_isPlasmaShotActive == true)
@@ -433,6 +460,15 @@ public class Player : MonoBehaviour
             _isShieldPowerupActive = false;
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "EnemyLaser")
+        {
+            Damage();
+
+        }
     }
 }
 

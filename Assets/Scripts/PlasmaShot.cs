@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlasmaShot : MonoBehaviour
 {
-  
+    
     private float _laserSpeed = 8f;
 
     // Start is called before the first frame update
@@ -16,9 +16,12 @@ public class PlasmaShot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      
+
+
         this.gameObject.transform.position += (transform.up * _laserSpeed * Time.deltaTime);
 
-        if(transform.position.y > 8)
+        if(transform.position.y > 8 || transform.position.y < -6f)
         {
 
             if (transform.parent != null)
@@ -32,4 +35,13 @@ public class PlasmaShot : MonoBehaviour
         }
         
     }
+
+    public void AssignEnemyLaser()
+    {
+
+        transform.tag = "EnemyLaser";
+
+
+    }
+
 }

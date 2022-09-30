@@ -15,6 +15,11 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TMP_Text _reloadText;
     [SerializeField]
+    private TMP_Text _waveText;
+    [SerializeField]
+    private TMP_Text _enemyCountText;
+
+    [SerializeField]
     private Sprite[] _liveSprites;
     [SerializeField]
     private Image _livesImage;
@@ -38,6 +43,18 @@ public class UIManager : MonoBehaviour
         _gameOverText.gameObject.SetActive(false);
         _scoreText.text = "Score " + 0;
        
+    }
+
+    public void UpdateEnemies(int enemies)
+    {
+        _enemyCountText.text = "Enemies: " + enemies;
+
+    }
+
+    public void UpdateWave(int currentWave)
+    {
+        _waveText.text = "Wave: " + currentWave;
+
     }
 
     public void UpdateScore(int playerScore)
@@ -71,6 +88,8 @@ public class UIManager : MonoBehaviour
         StartCoroutine(GameOverFlickerRoutine());
         _gameManager.GameOver();
     }
+
+  
 
     public IEnumerator GameOverFlickerRoutine()
     {
