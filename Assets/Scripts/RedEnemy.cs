@@ -121,6 +121,9 @@ public class RedEnemy : MonoBehaviour
     {
         Vector3 localOffset = new Vector3(0, -1.4f, 0);
         float fireRate = Random.Range(5f, 7f);
+
+        yield return new WaitForSeconds(3f);
+
         while (this.gameObject.activeSelf)
         {
             GameObject enemyPlasma = Instantiate(_plasmaShotPrefab, transform.position + localOffset, Quaternion.Euler(0, 0, 180));

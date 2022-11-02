@@ -14,6 +14,9 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private GameObject _enemyLaser;
+    [SerializeField]
+    private GameObject _enemyShield;
+    
 
     [SerializeField]
     private AudioClip _explosionAudio;
@@ -32,9 +35,10 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
-            StartCoroutine(ShootLaserRoutine());
-            StartCoroutine(SetMovementRoutine());
+        SpawnShield();
+
+        StartCoroutine(ShootLaserRoutine());
+        StartCoroutine(SetMovementRoutine());
 
 
         _audioSource = GetComponent<AudioSource>();
@@ -105,7 +109,21 @@ public class Enemy : MonoBehaviour
     }
 
    
+    private void SpawnShield()
+    {
+        int ShieldRate = Random.Range(0, 7);
 
+        if (ShieldRate == 0)
+        {
+            _enemyShield.SetActive(true);
+
+
+        }
+
+        else return;
+
+
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
        
@@ -126,13 +144,24 @@ public class Enemy : MonoBehaviour
         {
             Destroy(other.gameObject);
 
-            _spawnManager.DestroyedEnemy();
+            if(_enemyShield.activeSelf == true)
+            {
+                _enemyShield.SetActive(false);
 
-            
-            _player.UpdateScore(10);
-            
+            }
 
-            EnemyDeathSequence();
+            else
+            {
+                _spawnManager.DestroyedEnemy();
+
+
+                _player.UpdateScore(10);
+
+
+                EnemyDeathSequence();
+
+            }
+            
 
         }
       
