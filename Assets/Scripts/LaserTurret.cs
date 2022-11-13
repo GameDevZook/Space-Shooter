@@ -6,7 +6,7 @@ public class LaserTurret : MonoBehaviour
 {
     private GameObject _player;
     [SerializeField]
-    private float _speed = 1f;
+    
     private bool _canFire;
     private bool _isFiring;
     [SerializeField]
@@ -43,13 +43,13 @@ public class LaserTurret : MonoBehaviour
     IEnumerator ShootLaserRoutine()
     {
         _isFiring = true;
-        Vector3 localOffset = new Vector3(0, 1.4f, 0);
+        
 
         while(_canFire == true)
         {
             
             
-            Instantiate(_laserPrefab, transform.position + localOffset, transform.rotation);
+            Instantiate(_laserPrefab, transform.position, transform.rotation);
 
             yield return new WaitForSeconds(.5f);
 
@@ -63,13 +63,14 @@ public class LaserTurret : MonoBehaviour
 
     void CalculateMovement()
     {
-        
-        
 
-        float speed = _speed * Time.deltaTime;
-        Vector3 targetDirection = _player.transform.position - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(targetDirection);
-        transform.rotation = rotation;
+        Vector3 diff = _player.transform.position - transform.position;
+        diff.Normalize();
+
+        float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, rot_z - 90);
+
+        //transform.right = _player.transform.position - transform.position;
         
 
     }

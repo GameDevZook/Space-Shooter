@@ -15,6 +15,7 @@ public class GreenEnemy : MonoBehaviour
     private UIManager _UIManager;
     [SerializeField]
     private GameObject _explosionPrefab;
+    private SpawnManager _spawnManager;
     
 
 
@@ -26,7 +27,14 @@ public class GreenEnemy : MonoBehaviour
         _player = GameObject.Find("Player");
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
-        
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.LogError("Spawn Manager is NULL");
+
+        }
+
+
     }
 
     // Update is called once per frame
@@ -74,6 +82,7 @@ public class GreenEnemy : MonoBehaviour
         
 
         _player.GetComponent<Player>().UpdateScore(20);
+        _spawnManager.DestroyedEnemy();
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
 
         Destroy(this.gameObject);

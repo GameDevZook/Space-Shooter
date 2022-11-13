@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9a0512739187547b51c5eb0c922716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1
+  _canFire: 0
+  _laserPrefab: {fileID: 510909438309526310, guid: b0e76c8db99cdb644a4f4f8873099e35, type: 3}
 --- !u!1 &5969812705031775351
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,3 +194,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _explosionPrefab: {fileID: 2835936772600881103, guid: a680e0637f8865648af10d90685a88ff, type: 3}
